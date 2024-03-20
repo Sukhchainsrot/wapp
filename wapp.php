@@ -60,40 +60,30 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
-        a {
-            text-decoration: none;
-            color: #fff;
-            background-color: #007bff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            display: inline-block;
-            margin-top: 10px;
-            transition: background-color 0.3s ease;
-        }
-        a:hover {
-            background-color: #0056b3;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>WhatsApp Link Generator</h1>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+        <form id="whatsappForm" method="post" action="#">
             <label for="phone">Phone Number:</label>
             <input type="text" id="phone" name="phone" required>
             <label for="message">Message:</label>
             <textarea id="message" name="message" required></textarea>
             <input type="submit" value="Generate WhatsApp Link">
         </form>
-        <?php
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $phone = $_POST['phone'];
-            $message = urlencode($_POST['message']);
-            $whatsapp_link = "https://api.whatsapp.com/send?phone={$phone}&text={$message}";
-            echo "<a href='{$whatsapp_link}' target='_blank'>Open WhatsApp</a>";
-        }
-        ?>
+
+        <script>
+            document.getElementById("whatsappForm").addEventListener("submit", function(event) {
+                event.preventDefault(); // Prevent form submission
+
+                var phone = document.getElementById("phone").value;
+                var message = encodeURIComponent(document.getElementById("message").value);
+                var whatsappLink = "https://api.whatsapp.com/send?phone=" + phone + "&text=" + message;
+
+                window.location.href = whatsappLink; // Redirect to WhatsApp link
+            });
+        </script>
     </div>
 </body>
 </html>
-        
